@@ -37,10 +37,12 @@ class testRequest extends FormRequest
      */
     public function rules()
     {
+        $acceptedStauts = [1, 2];
         return [
             //
             'name' => 'required',
-            'status' => ['required', new statusRule(200)],
+            'status' => ['required', new statusRule('User', $acceptedStauts)],
+            // 'status' => ['required', new statusRule(200)],
         ];
     }
 }

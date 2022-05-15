@@ -6,16 +6,18 @@ use Illuminate\Contracts\Validation\Rule;
 use App\User;
 class statusRule implements Rule
 {
-    public $testParameter;
+    public $testParameter, $model, $acceptedStatuses;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($testParameter)
+    public function __construct($model, $acceptedStatuses)
     {
         //
-        $this->testParameter = $testParameter;
+        // $this->testParameter = $testParameter;
+        $this->model = $model;
+        $this->acceptedStatuses = $acceptedStatuses;
     }
 
     /**
@@ -31,8 +33,10 @@ class statusRule implements Rule
         /**
          * case 1
          */
-        $user = User::find(1);
-        if($user->status == $value){
+       
+        $test = "App\\".$this->model;
+        $user = $test::find(1);
+        if(in_array($user->status, $this->acceptedStatuses)){
             return true;
         }else{
             return false;
